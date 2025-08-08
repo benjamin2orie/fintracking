@@ -58,7 +58,7 @@ const Summary = ()=>{
         <div className="lg:pl-[5em]">
             <h2 className="lg:py-5 py-3">summary</h2>
             <div className="grid lg:grid-cols-4 grid-cols-2 lg:gap-5">
-            <Card className="p-3">
+            <Card>
                 <div>
                     {balanceSummary.map((balance) =>(
                         <div key={balance.id}>
@@ -75,7 +75,7 @@ const Summary = ()=>{
                 </div>
             </Card>
 
-                        <Card className="p-3">
+                        <Card>
                 <div>
                     {credit.map((balance) =>(
                         <div key={balance.id}>
@@ -92,7 +92,7 @@ const Summary = ()=>{
                 </div>
             </Card>
 
-                <Card className="p-3">
+                <Card>
                 <div>
                     {debit.map((balance) =>(
                         <div key={balance.id}>
@@ -109,7 +109,7 @@ const Summary = ()=>{
                 </div>
             </Card>
 
-                        <Card className="p-3">
+                        <Card>
                 <div>
                     {transaction.map((balance) =>(
                         <div key={balance.id}>

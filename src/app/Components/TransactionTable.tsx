@@ -8,6 +8,7 @@ interface TransactionTableProps {
   transactions: Transaction[];
 }
 
+
 export default function TransactionTable({ transactions }: TransactionTableProps) {
   return (
     <div className="overflow-x-auto">
@@ -102,3 +103,7 @@ export default function TransactionTable({ transactions }: TransactionTableProps
     </div>
   );
 }
+
+
+
+

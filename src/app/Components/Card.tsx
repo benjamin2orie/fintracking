@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 
 interface Properties{
-    className:string;
     children:ReactNode
 }
-export default function Card ({children, className}: Properties){
+export default function Card ({children}: Properties){
 
     return(
         <>
