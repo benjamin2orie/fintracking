@@ -1,0 +1,16 @@
+
+'use client';
+
+
+const Settings = () =>{
+
+    return (
+        <div>
+            settings page
+        </div>
+    )
+};
+
+
+
+export default Settings;

@@ -1,103 +1,83 @@
+'use client';
+
+import {useState} from 'react';
+import Search from './Components/SearchBar';
+import Table from './dashboard/page';
+import TransactionTable from './Components/TransactionTable';
+import { Transaction } from './types/transaction';
+import SideBar from './Components/SideBar';
 import Image from "next/image";
+import WalletLedger from './Components/walletLedger';
+import Link from 'next/link';
+import { useSearch } from './Components/SearchContext';
+import Summary from './Components/DashboardSummary';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { searchQuery, setSearchQuery } = useSearch();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+  // const [searchQuery, setSearchQuery] = useState('');
+
+  const transactions:Transaction[] =[
+    { date: '2023-10-01', remark: 'Salary', amount: 3000, currency: 'USD', type: 'Credit' },
+    { date: '2023-10-02', remark: 'Groceries', amount: 150, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-03', remark: 'Gym Membership', amount: 50, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-04', remark: 'Dinner', amount: 40, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-05', remark: 'Movie Tickets', amount: 30, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-06', remark: 'Rent', amount: 1200, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-07', remark: 'Utilities', amount: 100, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-08', remark: 'Car Payment', amount: 400, currency: 'USD', type: 'Debit' },
+    { date: '2023-10-09', remark: 'Insurance', amount: 200, currency: 'USD', type: 'Debit' },
+  ];
+
+
+
+
+ // Filter transactions based on search query
+  const filteredTransactions = transactions.filter(transaction =>
+    transaction.remark.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    transaction.amount.toString().includes(searchQuery) ||
+    transaction.type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
+  return (
+    <div className="font-sans">
+
+      <div>
+        {/* <SideBar/> */}
+
+        <div className='lg:pr-[3em]'>
+          <div>
+            <WalletLedger/>
+            <Summary/>
+          </div>
+          {filteredTransactions.length > 0 ? (
+           <>
+              <TransactionTable transactions={filteredTransactions} />
+
+              <div className="mt-4 text-sm text-gray-500 text-center py-5">
+                Showing {filteredTransactions.length} of {transactions.length} transactions
+              </div>
+            </>
+          ) : (
+            <>
+              <p className='text-center text-[#437D8E]'>No result found</p>
+                  <p className="text-gray-500 text-center max-w-md pt-6">
+                We couldn't find any transactions matching "{searchQuery}".<br />
+                Try adjusting your search or filter by type or name.
+            </p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="mt-4 px-4 py-2 bg-[#437D8E] text-[#fff] rounded-md hover:bg-blue-300 transition-colors ml-[3em]"
+              >
+                Clear search
+              </button>
+            </>
+           )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
     </div>
   );
 }
